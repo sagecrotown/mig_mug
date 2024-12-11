@@ -1,14 +1,18 @@
 #include "Map.h"
+#include "Entity.h"
 
 Map::Map(int width, int height, std::vector<int> level_data, GLuint texture_id, float tile_size, int tile_count_x, int tile_count_y) :
 m_width(width), m_height(height), m_level_data(level_data), m_texture_id(texture_id), m_tile_size(tile_size), m_tile_count_x(tile_count_x), m_tile_count_y(tile_count_y) {
-    std::cout << "level size: " << level_data.size() << std::endl;
     build();
 }
 
 
 void Map::build()
 {
+    // clear vectors, in case we're rebuilding
+    m_vertices.clear();
+    m_texture_coordinates.clear();
+    
     // Since this is a 2D map, we need a nested for-loop
     for(int y_coord = 0; y_coord < m_height; y_coord++)
     {
@@ -56,6 +60,47 @@ void Map::build()
     m_right_bound  = (m_tile_size * m_width) - (m_tile_size / 2);
     m_top_bound    = 0 + (m_tile_size / 2);
     m_bottom_bound = -(m_tile_size * m_height) + (m_tile_size / 2);
+}
+
+
+void Map::update(Entity* player, float delta_time) {
+    
+    if (player->is_digging()) {
+        m_dig_count += delta_time;
+        glm::vec3 player_pos = player->get_position();
+
+        int tile_x = floor((player_pos.x + (m_tile_size / 2))  / m_tile_size);
+        int tile_y = -(ceil(player_pos.y - (m_tile_size / 2))) / m_tile_size;
+
+        if (player->is_digging_left()) {
+            tile_x -= 1;
+        }
+        else if (player->is_digging_right()) {
+            tile_x += 1;
+        }
+        else {
+            tile_y += 1;
+        }
+        if (m_dig_count >= m_tile_hp) {
+            delete_tile(player, tile_x, tile_y);
+            m_dig_count = 0;
+        }
+    }
+}
+
+void Map::delete_tile(Entity* player, int tile_x, int tile_y) {
+    
+//    std::cout << "width, heigth: " << m_width << ", " << m_height << std::endl;
+//    std::cout << "tile: " << tile_x << ", " << tile_y << std::endl;
+    
+    if ((player->is_digging_right() && tile_x < m_width) || (player->is_digging_left() && tile_x > 0)){
+        m_level_data[tile_y * m_width + tile_x] = 0;
+        build();
+    }
+    else if (!player->is_digging_right() && !player->is_digging_left() && tile_y < m_height - 1) {
+        m_level_data[tile_y * m_width + tile_x] = 0;
+        build();
+    }
 }
 
 void Map::render(ShaderProgram *program)

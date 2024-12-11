@@ -77,7 +77,10 @@ void AI::ai_activate(Entity *player) {
         
         case RED:          // red + yellow + blue are the same
             look_red();
-            ai_fly(-13, -7);
+//            fly_start = get_position().y;
+            ai_fly(m_fly_start, m_fly_start + m_fly_range);
+            std::cout << "fly start: " << m_fly_start << std::endl;
+            std::cout << "fly end: " << m_fly_start + 2 << std::endl;
             break;
             
         case YELLOW:
@@ -86,7 +89,7 @@ void AI::ai_activate(Entity *player) {
             
         case BLUE:
             look_blue();
-            ai_walk(7, 23);
+            ai_walk(m_shuffle_start, m_shuffle_start + m_shuffle_range);
             break;
             
         default:
@@ -113,11 +116,12 @@ void AI::ai_walk(int left_bound, int right_bound) {
 }
 
 void AI::ai_fly(int lower_bound, int upper_bound) {
-    if (m_position.y > (upper_bound)) {
+    std::cout << "flying pos: " << m_position.y << std::endl;
+    if (m_position.y >= (upper_bound)) {
         moving_up = false;
     }
     
-    if (m_position.y < (lower_bound)) {
+    if (m_position.y <= (lower_bound)) {
         moving_up = true;
     }
     
@@ -164,6 +168,15 @@ void const AI::set_ai_type(AIType new_ai_type) {
 
 void const AI::set_ai_state(AIState new_state) {
     m_ai_state = new_state;
-    
 }
+
+void const AI::set_position(glm::vec3 new_position, int fly_range, int shuffle_range) {
+    m_position = new_position;
+    m_fly_start = get_position().y;
+    m_shuffle_start = get_position().x;
+    m_fly_range = fly_range;
+    m_shuffle_range = shuffle_range;
+}
+
+    
 

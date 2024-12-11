@@ -51,10 +51,12 @@ void Entity::dig() {
     if (m_movement.x < 0) {
         m_movement.x = 0;
         dig_left();
+        m_is_digging_left = true;
     }
     else if (m_movement.x > 0) {
         m_movement.x = 0;
         dig_right();
+        m_is_digging_right = true;
     }
     else
         dig_down();
@@ -284,6 +286,10 @@ void Entity::update(float delta_time, Entity *player, std::vector<Entity*> colli
     m_collided_left   = false;
     m_collided_right  = false;
     m_on_triangle = false;
+    
+//    m_is_digging = false;
+//    m_is_digging_left = false;
+//    m_is_digging_right = false;
     
     if (m_animation_indices.size() != 0) {
 

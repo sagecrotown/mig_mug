@@ -27,6 +27,11 @@ private:
     AIState    m_ai_state;
     bool       moving_right;
     bool       moving_up;
+    
+    float      m_fly_start;           // for red
+    float      m_shuffle_start;       // for blue
+    int m_fly_range;
+    int m_shuffle_range;
 
 public:
 
@@ -78,5 +83,6 @@ public:
     // ————— SETTERS ————— //
     void const set_ai_type(AIType new_ai_type);
     void const set_ai_state(AIState new_state);
+    void const set_position(glm::vec3 new_position, int fly_range, int shuffle_range);
 };
 

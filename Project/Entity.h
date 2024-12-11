@@ -15,6 +15,8 @@ class Entity {
 protected:
     bool m_is_active = true;
     bool m_is_digging = false;
+    bool m_is_digging_left = false;
+    bool m_is_digging_right = false;
     
     std::vector<std::vector<int>> m_frames; // vector of vectors containing indices of animation frames
 
@@ -127,6 +129,8 @@ public:
     int       const get_lives() const { return m_lives; }
     bool      const is_active() const { return m_is_active; }
     bool      const is_digging() const { return m_is_digging; }
+    bool      const is_digging_left() const { return m_is_digging_left; }
+    bool      const is_digging_right() const { return m_is_digging_right; }
     bool      const level_won() const { return m_level_won; }
     
     void activate()   { m_is_active = true;  };
@@ -134,7 +138,7 @@ public:
     
     // ————— SETTERS ————— //
     void const set_entity_type(EntityType new_entity_type)  { m_entity_type = new_entity_type;}
-    void const set_position(glm::vec3 new_position) { m_position = new_position; }
+    virtual void const set_position(glm::vec3 new_position) { m_position = new_position; }
     void const set_velocity(glm::vec3 new_velocity) { m_velocity = new_velocity; }
     void const set_acceleration(glm::vec3 new_acceleration) { m_acceleration = new_acceleration; }
     void const set_movement(glm::vec3 new_movement) { m_movement = new_movement; }
@@ -152,6 +156,7 @@ public:
     void const set_lives(int new_lives) { m_lives = new_lives; }
     void const set_start_pos(glm::vec3 start_pos) { m_start_pos = start_pos; }
     void const change_angle(float difference) {m_angle = m_angle + difference; }
+    void const set_not_digging() { m_is_digging = false; m_is_digging_left = false; m_is_digging_right = false; }
 
     // Setter for m_frames
     void set_frames(std::vector<std::vector<int>> frames) {

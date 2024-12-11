@@ -41,7 +41,7 @@ void LevelA::initialise(ShaderProgram *program) {
     m_game_state.map = new Map(LEVEL_WIDTH, LEVEL_HEIGHT, m_game_state.LEVEL_DATA, map_texture_id, 1.0f, 7, 3);
     
     font_texture_id = Utility::load_texture(FONT_FILEPATH);
-    ENEMY_COUNT = 3;  // write to scene enemy counter?
+    ENEMY_COUNT = 22;  // write to scene enemy counter?
     
     std::vector<std::vector<int>> player_animation = {
         { 0 },               // facing forward
@@ -72,7 +72,7 @@ void LevelA::initialise(ShaderProgram *program) {
         PLAYER
     );
         
-    m_game_state.player->set_position(glm::vec3(10.0f, -5.0f, 0.0f));
+    m_game_state.player->set_position(glm::vec3(20.0f, -10.0f, 0.0f));
     m_game_state.player->set_start_pos(m_game_state.player->get_position());
     
     for (int i = 0; i < 5; i++) {  // because there are five possible colors
@@ -116,7 +116,7 @@ void LevelA::initialise(ShaderProgram *program) {
 
     for (int i = 0; i < ENEMY_COUNT; i++) {
         
-        m_game_state.collidables.push_back( new AI(enemy_texture_id,          // tex id
+        m_game_state.enemies.push_back( new AI(enemy_texture_id,          // tex id
                                           1.0f + i * 0.1f,                      // speed
                                           acceleration,              // acceleration
                                           8.0f,                      // jumping power
@@ -132,14 +132,46 @@ void LevelA::initialise(ShaderProgram *program) {
                                           PURPLE,                      // AI type
                                           IDLE)                     // AI state
                                        );
+        m_game_state.collidables.push_back(m_game_state.enemies[i]);
         m_game_state.collidables[i]->set_movement(glm::vec3(0.0f));
-        m_game_state.collidables[i]->set_acceleration(glm::vec3(0.0f, -9.81f, 0.0f));
+        m_game_state.collidables[i]->set_acceleration(glm::vec3(0.0f, -3.73f, 0.0f));
     }
     
-    m_game_state.collidables[0]->set_position(glm::vec3(20.0f, -2.0f, 0.0f));
-    m_game_state.collidables[1]->set_position(glm::vec3(15.0f, -10.0f, 0.0f));
-    m_game_state.collidables[2]->set_position(glm::vec3(45.0f, -5.0f, 0.0f));
+    for (int i = 0; i < ENEMY_COUNT; ++i) {
+        m_game_state.enemies[i]->set_ai_type(static_cast<AIType>(i % 5));
+    }
     
+    // blue
+    m_game_state.enemies[0]->set_position(glm::vec3(3.0f, -77.0f, 0.0f), 0, 3);
+    m_game_state.enemies[5]->set_position(glm::vec3(21.0f, -14.0f, 0.0f), 0, 1);
+    m_game_state.enemies[10]->set_position(glm::vec3(16.0f, -10.0f, 0.0f), 0, 10);
+    m_game_state.enemies[15]->set_position(glm::vec3(30.0f, -52.0f, 0.0f), 0, 2);
+    m_game_state.enemies[20]->set_position(glm::vec3(36.0f, -38.0f, 0.0f), 0, 3);
+    
+    // red
+    m_game_state.enemies[1]->set_position(glm::vec3(34.0f, -43.0f, 0.0f), 5, 0);
+    m_game_state.enemies[6]->set_position(glm::vec3(30.0f, -75.0f, 0.0f), 6, 0);
+    m_game_state.enemies[11]->set_position(glm::vec3(10.0f, -55.0f, 0.0f), 2, 0);
+    m_game_state.enemies[16]->set_position(glm::vec3(5.0f, -39.0f, 0.0f), 3, 0);
+    m_game_state.enemies[21]->set_position(glm::vec3(47.0f, -47.0f, 0.0f), 2, 0);
+    
+    //yellow
+    m_game_state.enemies[2]->set_position(glm::vec3(45.0f, -21.0f, 0.0f), 0, 0);
+    m_game_state.enemies[7]->set_position(glm::vec3(36.0f, -75.0f, 0.0f), 0, 0);
+    m_game_state.enemies[12]->set_position(glm::vec3(10.0f, -18.0f, 0.0f), 0, 0);
+    m_game_state.enemies[17]->set_position(glm::vec3(30.0f, -31.0f, 0.0f), 0, 0);
+    
+    //green
+    m_game_state.enemies[3]->set_position(glm::vec3(17.0f, -27.0f, 0.0f), 0, 0);
+    m_game_state.enemies[8]->set_position(glm::vec3(5.0f, -68.0f, 0.0f), 0, 0);
+    m_game_state.enemies[13]->set_position(glm::vec3(1.0f, -1.0f, 0.0f), 0, 0);
+    m_game_state.enemies[18]->set_position(glm::vec3(20.0f, -42.0f, 0.0f), 0, 0);
+    
+    //purple
+    m_game_state.enemies[4]->set_position(glm::vec3(15.0f, -10.0f, 0.0f), 0, 0);
+    m_game_state.enemies[9]->set_position(glm::vec3(42.0f, -33.0f, 0.0f), 0, 0);
+    m_game_state.enemies[14]->set_position(glm::vec3(29.0f, -16.0f, 0.0f), 0, 0);
+    m_game_state.enemies[19]->set_position(glm::vec3(34.0f, -61.0f, 0.0f), 0, 0);
     
     GLuint target_texture_id = Utility::load_texture(TARGET_FILEPATH);
     
@@ -165,7 +197,7 @@ void LevelA::initialise(ShaderProgram *program) {
     
     m_game_state.collidables.push_back(m_game_state.target);
     m_game_state.target->face_forward();
-    m_game_state.target->set_position(glm::vec3(48.0f, -10.0f, 0.0f));
+    m_game_state.target->set_position(glm::vec3(44.0f, -78.0f, 0.0f));
 
     /**
      BGM and SFX
@@ -205,18 +237,19 @@ void LevelA::update(float delta_time)
     }
     
     if (!m_game_state.player->is_active()) set_scene_id(4);  // switch to lose scene
-    if (m_game_state.player->level_won()) set_scene_id(2);    // switch to next level
+    
+    if (m_game_state.player->level_won()) {
+        set_scene_id(5);    // winner!
+        for (int i = 0; i < m_game_state.active_colors.size(); i ++) {
+            if (m_game_state.active_colors[i]) set_scene_id(6);      // MURDERER
+        }
+    }
     
     for (int i = 0; i < m_game_state.colors.size(); i++) {
         m_game_state.colors[i]->update(delta_time, m_game_state.player, m_game_state.collidables, ENEMY_COUNT, m_game_state.colors, m_game_state.map);
     }
     
-//    float left_edge = 10.0f;
-//    float bottom_edge = -12.0f;
-//    float right_edge = 39.5f;
-//    float top_edge = -7.0f;
-    
-//    float view_x, view_y;
+    m_game_state.map->update(m_game_state.player, delta_time);
     
     float player_x = m_game_state.player->get_position().x;
     float player_y = m_game_state.player->get_position().y;

@@ -122,7 +122,7 @@ void switch_to_scene(Scene *scene)
     else {
         g_projection_matrix = glm::ortho(-10.0f, 10.0f, -7.5f, 7.5f, -1.0f, 1.0f);
         left_edge = 10.0f;
-        bottom_edge = -12.0f;
+        bottom_edge = -72.0f;
         right_edge = 39.5f;
         top_edge = -7.0f;
     }
@@ -203,6 +203,7 @@ void process_input() {
     // VERY IMPORTANT: If nothing is pressed, we don't want to go anywhere
     g_current_scene->get_state().player->set_movement(glm::vec3(0.0f));
     g_current_scene->get_state().player->face_forward();
+    g_current_scene->get_state().player->set_not_digging();
     
     SDL_Event event;
     while (SDL_PollEvent(&event))

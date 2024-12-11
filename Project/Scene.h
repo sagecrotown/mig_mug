@@ -28,6 +28,7 @@ struct GameState
     
     std::vector<int> LEVEL_DATA;
     std::vector<Entity*> collidables;
+    std::vector<AI*> enemies;
     std::vector<Entity*> colors;
     std::vector<bool> active_colors;
     
@@ -64,6 +65,8 @@ public:
     virtual void initialise(ShaderProgram *program) = 0;
     virtual void update(float delta_time) = 0;
     virtual void render(ShaderProgram *program) = 0;
+    
+//    virtual void flash_text(ShaderProgram *program, GLuint font_texture_id, std::string text, float screen_size, float spacing, glm::vec3 position, float duration);
     
     // ————— GETTERS ————— //
     GameState const get_state() const { return m_game_state;             }

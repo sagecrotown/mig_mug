@@ -12,6 +12,9 @@
 #include "glm/mat4x4.hpp"
 #include "glm/gtc/matrix_transform.hpp"
 #include "ShaderProgram.h"
+//#include "Entity.h"
+
+class Entity; // forward declaration
 
 class Map {
 private:
@@ -25,6 +28,9 @@ private:
     float m_tile_size;
     int   m_tile_count_x;
     int   m_tile_count_y;
+//    float   m_tile_hp = 0.75;
+    float   m_tile_hp = 0.05; // for development
+    float   m_dig_count = 0;
     
     // Just like with rendering text, we're rendering several sprites at once
     // So we need vectors to store their respective vertices and texture coordinates
@@ -41,9 +47,11 @@ public:
     
     // Methods
     void build();
+    void update(Entity* player, float delta_time);
     void render(ShaderProgram *program);
     bool is_solid(glm::vec3 position, float *penetration_x, float *penetration_y);
     bool is_triangle(glm::vec3 position);
+    void delete_tile(Entity* player, int tile_x, int tile_y);
     
     // Getters
     int const get_width()  const  { return m_width;  }
