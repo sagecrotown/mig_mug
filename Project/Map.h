@@ -28,8 +28,8 @@ private:
     float m_tile_size;
     int   m_tile_count_x;
     int   m_tile_count_y;
-//    float   m_tile_hp = 0.75;
-    float   m_tile_hp = 0.05; // for development
+    float   m_tile_hp = 0.75;
+//    float   m_tile_hp = 0.05; /d/ for development
     float   m_dig_count = 0;
     
     // Just like with rendering text, we're rendering several sprites at once

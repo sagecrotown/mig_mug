@@ -24,8 +24,8 @@ Menu::~Menu() {
     }
     delete    m_game_state.player;
     delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+//    Mix_FreeChunk(m_game_state.jump_sfx);
+//    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void Menu::initialise(ShaderProgram *program) {
@@ -100,17 +100,6 @@ void Menu::initialise(ShaderProgram *program) {
     
 //    GLuint enemy_texture_id = Utility::load_texture(ENEMY_FILEPATH);
     m_game_state.collidables.push_back(new AI());
-    
-    /**
-     BGM and SFX
-     */
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
-    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
-    Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
-    
-    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
 void Menu::update(float delta_time)
@@ -121,8 +110,8 @@ void Menu::update(float delta_time)
 void Menu::render(ShaderProgram *program)
 {
 //    m_game_state.map->render(program);
-    Utility::draw_text(program, Menu_font_texture_id, "MIG MUG", 1.5f, 0.01f, glm::vec3(5.50f, -3.0f , 0.0f));
-    Utility::draw_text(program, Menu_font_texture_id, "MUSIC BY EL WHITTLE", 0.4f, 0.01f, glm::vec3(6.5f, -6.0f , 0.0f));
-    Utility::draw_text(program, Menu_font_texture_id, "EVERYTHING ELSE BY SAGE CRONEN-TOWNSEND", 0.4f, 0.01f, glm::vec3(2.0f, -7.0f , 0.0f));
+    Utility::draw_text(program, Menu_font_texture_id, "MIG MUG", 1.5f, 0.01f, glm::vec3(5.50f, -4.0f , 0.0f));
+//    Utility::draw_text(program, Menu_font_texture_id, "MUSIC BY EL WHITTLE", 0.4f, 0.01f, glm::vec3(6.5f, -6.0f , 0.0f));
+//    Utility::draw_text(program, Menu_font_texture_id, "EVERYTHING ELSE BY SAGE CRONEN-TOWNSEND", 0.4f, 0.01f, glm::vec3(2.0f, -7.0f , 0.0f));
     Utility::draw_text(program, Menu_font_texture_id, "PRESS ENTER TO START", 0.3f, 0.01f, glm::vec3(1.0f, -13.0f , 0.0f));
 }

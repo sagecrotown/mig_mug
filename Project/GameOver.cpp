@@ -26,8 +26,8 @@ GameOver::~GameOver() {
     }
     delete    m_game_state.player;
     delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+//    Mix_FreeChunk(m_game_state.jump_sfx);
+//    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void GameOver::initialise(ShaderProgram *program) {
@@ -130,16 +130,16 @@ void GameOver::initialise(ShaderProgram *program) {
         m_game_state.collidables[i]->deactivate();
     }
     
-    /**
-     BGM and SFX
-     */
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
-    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
-    Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
-    
-    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
+//    /**
+//     BGM and SFX
+//     */
+//    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
+//    
+//    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
+//    Mix_PlayMusic(m_game_state.bgm, -1);
+//    Mix_VolumeMusic(0.0f);
+//    
+//    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
 void GameOver::update(float delta_time)

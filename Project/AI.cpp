@@ -77,10 +77,7 @@ void AI::ai_activate(Entity *player) {
         
         case RED:          // red + yellow + blue are the same
             look_red();
-//            fly_start = get_position().y;
             ai_fly(m_fly_start, m_fly_start + m_fly_range);
-            std::cout << "fly start: " << m_fly_start << std::endl;
-            std::cout << "fly end: " << m_fly_start + 2 << std::endl;
             break;
             
         case YELLOW:
@@ -116,7 +113,6 @@ void AI::ai_walk(int left_bound, int right_bound) {
 }
 
 void AI::ai_fly(int lower_bound, int upper_bound) {
-    std::cout << "flying pos: " << m_position.y << std::endl;
     if (m_position.y >= (upper_bound)) {
         moving_up = false;
     }

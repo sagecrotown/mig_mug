@@ -4,7 +4,7 @@
 #define LEVEL_WIDTH 10
 #define LEVEL_HEIGHT 10
 
-constexpr char SPRITESHEET_FILEPATH[] = "assets/skel.png",
+constexpr char SPRITESHEET_FILEPATH[] = "assets/sage_miner.png",
            ENEMY_FILEPATH[]       = "assets/aiiiii.png",
             MAP_FILEPATH[] = "assets/ai_tile.png",
           FONT_FILEPATH[] = "assets/blue_font.png",
@@ -26,8 +26,8 @@ GameWon::~GameWon() {
     }
     delete    m_game_state.player;
     delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+//    Mix_FreeChunk(m_game_state.jump_sfx);
+//    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void GameWon::initialise(ShaderProgram *program) {
@@ -42,9 +42,28 @@ void GameWon::initialise(ShaderProgram *program) {
     W_font_texture_id = Utility::load_texture(FONT_FILEPATH);
     
     std::vector<std::vector<int>> player_animation = {
+        { 0 },               // facing forward
+        { 1 , 2 , 3 , 4 },   // walking left
+        { 5 , 6 , 7 , 8 },   // walking right
+        { 9 , 10 },           // digging down
+        { 11, 12 },           // digging left
+        { 13, 14 }            // digging right
+    };
+    
+    std::vector<std::vector<int>> color_animation = {
         { 0 , 1 , 2 , 3  },   // facing forward
         { 4 , 5 , 6 , 7  },   // walking left
         { 8 , 9 , 10, 11 }   // walking right
+    };
+    
+    std::vector<std::vector<int>> enemy_animation_frames = {
+        { 0 , 1 , 2 , 3  },   // blue
+        { 4 , 5 , 6 , 7  },   // red
+        { 8 , 9 , 10, 11 },   // yellow
+        { 12, 13, 14, 15 },   // green right
+        { 16, 17, 18, 19 },   // green left
+        { 20, 21, 22, 23 },   // purple right
+        { 24, 25, 26, 27 }    // purple left
     };
     
     glm::vec3 acceleration = glm::vec3(0.0f, -9.81f, 0.0f);
@@ -61,7 +80,7 @@ void GameWon::initialise(ShaderProgram *program) {
         4,                         // animation frame amount
         0,                         // current animation index
         4,                         // animation column amount
-        3,                         // animation row amount
+        4,                         // animation row amount
         0.75f,                     // width
         1.0f,                      // height
         PLAYER
@@ -107,16 +126,7 @@ void GameWon::initialise(ShaderProgram *program) {
     
     // TODO: find better solution than dynamic cast (but not tonight)
     GLuint enemy_texture_id = Utility::load_texture(ENEMY_FILEPATH);
-    
-    std::vector<std::vector<int>> enemy_animation_frames = {
-        { 0 , 1 , 2 , 3  },   // blue
-        { 4 , 5 , 6 , 7  },   // red
-        { 8 , 9 , 10, 11 },   // yellow
-        { 12, 13, 14, 15 },   // green right
-        { 16, 17, 18, 19 },   // green left
-        { 20, 21, 22, 23 },   // purple right
-        { 24, 25, 26, 27 }    // purple left
-    };
+
     
     for (int i = 0; i < ENEMY_COUNT; i++) {
         
@@ -138,17 +148,6 @@ void GameWon::initialise(ShaderProgram *program) {
                                        );
         m_game_state.collidables[i]->deactivate();
     }
-    
-    /**
-     BGM and SFX
-     */
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
-    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
-    Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
-    
-    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
 void GameWon::update(float delta_time)

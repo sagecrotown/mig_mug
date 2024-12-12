@@ -24,8 +24,8 @@ LevelA::~LevelA() {
     }
     delete    m_game_state.player;
     delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+//    Mix_FreeChunk(m_game_state.jump_sfx);
+//    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void LevelA::initialise(ShaderProgram *program) {
@@ -50,6 +50,22 @@ void LevelA::initialise(ShaderProgram *program) {
         { 9 , 10 },           // digging down
         { 11, 12 },           // digging left
         { 13, 14 }            // digging right
+    };
+    
+    std::vector<std::vector<int>> color_animation = {
+        { 0 , 1 , 2 , 3  },   // facing forward
+        { 4 , 5 , 6 , 7  },   // walking left
+        { 8 , 9 , 10, 11 }   // walking right
+    };
+    
+    std::vector<std::vector<int>> enemy_animation_frames = {
+        { 0 , 1 , 2 , 3  },   // blue
+        { 4 , 5 , 6 , 7  },   // red
+        { 8 , 9 , 10, 11 },   // yellow
+        { 12, 13, 14, 15 },   // green right
+        { 16, 17, 18, 19 },   // green left
+        { 20, 21, 22, 23 },   // purple right
+        { 24, 25, 26, 27 }    // purple left
     };
     
     glm::vec3 acceleration = glm::vec3(0.0f, -9.81f, 0.0f);
@@ -82,7 +98,7 @@ void LevelA::initialise(ShaderProgram *program) {
                                                    2.0f,                      // speed
                                                    acceleration,              // acceleration
                                                    8.0f,                      // jumping power
-                                                   player_animation,          // animation index sets
+                                                   color_animation,          // animation index sets
                                                    0.0f,                      // animation time
                                                    4,                         // animation frame amount
                                                    0,                         // current animation index
@@ -102,16 +118,6 @@ void LevelA::initialise(ShaderProgram *program) {
     
     // TODO: find better solution than dynamic cast (but not tonight)
     GLuint enemy_texture_id = Utility::load_texture(ENEMY_FILEPATH);
-    
-    std::vector<std::vector<int>> enemy_animation_frames = {
-        { 0 , 1 , 2 , 3  },   // blue
-        { 4 , 5 , 6 , 7  },   // red
-        { 8 , 9 , 10, 11 },   // yellow
-        { 12, 13, 14, 15 },   // green right
-        { 16, 17, 18, 19 },   // green left
-        { 20, 21, 22, 23 },   // purple right
-        { 24, 25, 26, 27 }    // purple left
-    };
     
 
     for (int i = 0; i < ENEMY_COUNT; i++) {
@@ -198,17 +204,6 @@ void LevelA::initialise(ShaderProgram *program) {
     m_game_state.collidables.push_back(m_game_state.target);
     m_game_state.target->face_forward();
     m_game_state.target->set_position(glm::vec3(44.0f, -78.0f, 0.0f));
-
-    /**
-     BGM and SFX
-     */
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
-    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
-    Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
-    
-    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
 void LevelA::update(float delta_time)
@@ -278,9 +273,9 @@ void LevelA::render(ShaderProgram *program)
     
     m_game_state.player->render(program);
     
-//    for (int i = 0; i < m_game_state.colors.size(); i++) {
-//        m_game_state.colors[i]->render(program);
-//    }
+    for (int i = 0; i < m_game_state.colors.size(); i++) {
+        m_game_state.colors[i]->render(program);
+    }
     
     Utility::draw_text(program, font_texture_id, "LIVES: ", 0.3f, 0.01f, message_pos);
     Utility::draw_text(program, font_texture_id, std::to_string(m_game_state.player->get_lives() + 1),  0.3f, 0.01f, life_pos);

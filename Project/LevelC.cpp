@@ -25,8 +25,8 @@ LevelC::~LevelC() {
     }
     delete    m_game_state.player;
     delete    m_game_state.map;
-    Mix_FreeChunk(m_game_state.jump_sfx);
-    Mix_FreeMusic(m_game_state.bgm);
+//    Mix_FreeChunk(m_game_state.jump_sfx);
+//    Mix_FreeMusic(m_game_state.bgm);
 }
 
 void LevelC::initialise(ShaderProgram *program) {
@@ -163,17 +163,6 @@ void LevelC::initialise(ShaderProgram *program) {
     m_game_state.collidables.push_back(m_game_state.target);
     m_game_state.target->face_forward();
     m_game_state.target->set_position(glm::vec3(42.0f, -18.0f, 0.0f));
-
-    /**
-     BGM and SFX
-     */
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096);
-    
-    m_game_state.bgm = Mix_LoadMUS("assets/dooblydoo.mp3");
-    Mix_PlayMusic(m_game_state.bgm, -1);
-    Mix_VolumeMusic(0.0f);
-    
-    m_game_state.jump_sfx = Mix_LoadWAV("assets/bounce.wav");
 }
 
 void LevelC::update(float delta_time)
