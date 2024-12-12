@@ -270,6 +270,16 @@ void Entity::update(float delta_time, Entity *player, std::vector<Entity*> colli
         }
         else face_forward();
         
+        if (player->is_digging()) {
+            if (player->is_digging_left()) {
+                dig_left();
+            }
+            else if (player->is_digging_right()) {
+                dig_right();
+            }
+            else dig_down();
+        }
+        
         set_position(player->get_position());  // match position
         set_animation_index(player->get_animation_index());  // make sure indices are lined up
         

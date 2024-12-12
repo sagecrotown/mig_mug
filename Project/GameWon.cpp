@@ -50,12 +50,6 @@ void GameWon::initialise(ShaderProgram *program) {
         { 13, 14 }            // digging right
     };
     
-    std::vector<std::vector<int>> color_animation = {
-        { 0 , 1 , 2 , 3  },   // facing forward
-        { 4 , 5 , 6 , 7  },   // walking left
-        { 8 , 9 , 10, 11 }   // walking right
-    };
-    
     std::vector<std::vector<int>> enemy_animation_frames = {
         { 0 , 1 , 2 , 3  },   // blue
         { 4 , 5 , 6 , 7  },   // red
@@ -100,7 +94,7 @@ void GameWon::initialise(ShaderProgram *program) {
                                                    4,                         // animation frame amount
                                                    0,                         // current animation index
                                                    4,                         // animation column amount
-                                                   3,                         // animation row amount
+                                                   4,                         // animation row amount
                                                    0.75f,                     // width
                                                    1.0f,                      // height
                                                    COLOR
@@ -119,8 +113,6 @@ void GameWon::initialise(ShaderProgram *program) {
     for (int i = 0; i < 5; i++) {
         std::cout << m_game_state.colors[i]->is_active() << std::endl;
     }
-    
-    
     
     //Enemies' stuff
     

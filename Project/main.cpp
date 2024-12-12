@@ -47,12 +47,12 @@ constexpr float MILLISECONDS_IN_SECOND = 1000.0;
 
 constexpr char V_SHADER_PATH[]     =  "shaders/vertex_textured.glsl",
            F_SHADER_PATH[]         =  "shaders/fragment_textured.glsl";
-constexpr char BGM_FILEPATH[]      =  "assets/mamples.mp3",
+constexpr char BGM_FILEPATH[]      =  "assets/migmug.mp3",
             DIGGING_SFX_FILEPATH[] =  "assets/dig_wet_sand.wav";
 
-constexpr int NUMBER_OF_TEXTURES = 1;
-constexpr GLint LEVEL_OF_DETAIL  = 0;
-constexpr GLint TEXTURE_BORDER   = 0;
+//constexpr int NUMBER_OF_TEXTURES = 1;
+//constexpr GLint LEVEL_OF_DETAIL  = 0;
+//constexpr GLint TEXTURE_BORDER   = 0;
 
 // BGM
 constexpr int CD_QUAL_FREQ    = 44100,  // CD quality

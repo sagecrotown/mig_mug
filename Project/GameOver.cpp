@@ -11,11 +11,11 @@ constexpr char SPRITESHEET_FILEPATH[] = "assets/skel.png",
             CSV_FILEPATH[] = "assets/ai_game_over.csv";
 
 constexpr char* COLOR_FILEPATHS[] = {
-    "assets/blue_spot.png",
-    "assets/red_spot.png",
-    "assets/yellow_spot.png",
-    "assets/green_spot.png",
-    "assets/purple_spot.png",
+    "assets/skel_blue_spot.png",
+    "assets/skel_red_spot.png",
+    "assets/skel_yellow_spot.png",
+    "assets/skel_green_spot.png",
+    "assets/skel_purple_spot.png",
 };
 
 std::vector<int> GAMEOVER_DATA;
